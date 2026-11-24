@@ -1,19 +1,25 @@
-# Fresh USA — Access Control & Tracking Downloads
+# Fresh USA — Access Control & Tracking
 
-Public distribution repository for approved Windows installers. Product source code is maintained separately.
+[Download Acceess-Control-Tracking-Setup.exe](https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases/latest/download/Acceess-Control-Tracking-Setup.exe)
 
-## Download status
+Current version: **2.7.0.386**. This is the public Windows installer download repository.
 
-No installer has been published in this repository. The first release requires explicit owner approval.
+## Permanent link for your website
 
-The permanent download address, activated after an approved stable release, is:
+```text
+https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases/latest/download/Acceess-Control-Tracking-Setup.exe
+```
 
-[Setup.exe](https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases/latest/download/Setup.exe)
+This address downloads the latest published stable installer. Future releases keep the asset filename `Acceess-Control-Tracking-Setup.exe`. Version-specific installers remain available in [Releases](https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases).
 
+## Installation and licensing
 
+Download the EXE, verify its SHA-256 using the release's SHA256SUMS.txt, then run the installer and review the EULA. Normal license activation is required for physical readers; this download does not include an activation entitlement. Existing databases and profiles are retained. Back up your data before an update.
 
-## Version history and integrity
+The complete installer includes all supplied reader SDKs, CH340/CH341 and CP210x USB drivers, prerequisite components for DEMO, and the English US User Guide in About program. Working mode requires a separately configured compatible SQL Server.
 
-Approved versions will remain in [Releases](https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases). Each release will include SHA256SUMS.txt. The latest URL follows the latest stable release; the asset filename stays unchanged. Existing published versions and assets must not be overwritten.
+The installer is not Authenticode-signed by Fresh USA; Windows may display an unknown publisher warning. Driver terms are provided in the installer. Software is supplied as is under its EULA.
 
-Copyright Fresh USA, Inc. This repository does not grant a software license or include an activation entitlement.
+[Product information, licensing and customization](https://software.fresh222.com/product/access-control-software/)
+
+Copyright Fresh USA, Inc.
