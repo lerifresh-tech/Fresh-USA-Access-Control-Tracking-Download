@@ -2,7 +2,7 @@
 
 [Download Acceess-Control-Tracking-Setup.exe](https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases/latest/download/Acceess-Control-Tracking-Setup.exe)
 
-Current version: **2.7.0.404**. This is the public Windows installer download repository.
+Current version: **2.7.0.405**. This is the public Windows installer download repository.
 
 ## Permanent link for your website
 
