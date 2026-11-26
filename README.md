@@ -2,9 +2,9 @@
 
 [Download Acceess-Control-Tracking-Setup.exe](https://github.com/lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download/releases/latest/download/Acceess-Control-Tracking-Setup.exe)
 
-Current version: **2.7.0.409**. This is the public Windows installer download repository.
+Current version: **2.7.0.412**. This is the public Windows installer download repository.
 
-After activation, Working data opens automatically. License and DEMO controls disappear from the header; both remain available in Settings.
+Fixes repeated connection-loss dialogs with minute reminders unchecked. Brief reconnects and runtime reloads no longer restart the warning. Red ownership warnings identify the reader and ignore stopped-runtime callbacks. Working startup, licensing and all existing settings are retained.
 
 ## Permanent link for your website
 
