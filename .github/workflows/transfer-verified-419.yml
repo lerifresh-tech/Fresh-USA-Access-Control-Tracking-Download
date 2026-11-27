@@ -1,0 +1,57 @@
+name: Transfer verified installer 419
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  transfer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Transfer exact accepted binary to draft release
+        env:
+          TRANSFER_URL: ${{ secrets.FRESH_INSTALLER_TRANSFER_419 }}
+          GH_TOKEN: ${{ github.token }}
+          PYTHONUNBUFFERED: '1'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,subprocess,urllib.request,urllib.parse,zipfile
+          from pathlib import Path
+          url=os.environ.pop('TRANSFER_URL');u=urllib.parse.urlparse(url)
+          assert u.scheme=='https' and (u.hostname.endswith('.blob.core.windows.net') or u.hostname.endswith('.actions.githubusercontent.com'))
+          archive=Path('verified.zip');h=hashlib.sha256();n=0
+          try:
+           with urllib.request.urlopen(url,timeout=120) as r,archive.open('wb') as f:
+            assert r.status==200
+            while block:=r.read(4<<20):
+             n+=len(block);assert n<=1398691757;h.update(block);f.write(block)
+          except Exception:raise RuntimeError('Scoped artifact transfer failed; signed URL suppressed.') from None
+          del url,u
+          assert n==1398691757 and h.hexdigest()=='8de5e62ea93bed3ec2fd72a2abc235a16d9a6f4e7d2be53312fbcf2e9d3a5e8c'
+          out=Path('Acceess-Control-Tracking-Setup.exe')
+          with zipfile.ZipFile(archive) as z:
+           assert json.loads(z.read('reader-package-audit.json'))['build']['Source']=='29badd75d3d284904177c2b0a1d0c00c9173a87f'
+           info=z.getinfo('installer/FreshUSA-AccessControl-Setup.exe');assert info.file_size==1392935304
+           with z.open(info) as src,out.open('wb') as dest:
+            while block:=src.read(4<<20):dest.write(block)
+          with out.open('rb') as f:digest=hashlib.file_digest(f,'sha256').hexdigest()
+          assert digest=='b380fd276302d250b0775c69501bd19e8a368a901389a435f21b7a5e9f19097c'
+          repo='lerifresh-tech/Fresh-USA-Access-Control-Tracking-Download'
+          release=json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/releases/460976562']))
+          assert release['draft'] and release['tag_name']=='v2.7.0.419' and not release['prerelease']
+          matches=[a for a in release['assets'] if a['name']==out.name]
+          if matches:
+           assert len(matches)==1 and matches[0]['digest']=='sha256:'+digest and matches[0]['size']==1392935304 and matches[0]['state']=='uploaded'
+          else:subprocess.run(['gh','release','upload','v2.7.0.419',str(out),'--repo',repo],check=True)
+          release=json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/releases/460976562']))
+          a=next(a for a in release['assets'] if a['name']==out.name)
+          assert a['size']==1392935304 and a['digest']=='sha256:'+digest and a['state']=='uploaded'
+          proof={'status':'PASSED','source':'29badd75d3d284904177c2b0a1d0c00c9173a87f','archiveSha256':h.hexdigest(),'assetSha256':digest,'assetBytes':a['size'],'publicRepositoryTokenOnly':True,'privateRepositoryCredentialPassed':False,'temporarySignedUrlMaskedSecret':True,'draftOnly':True,'assetId':a['id']}
+          Path('transfer-proof.json').write_text(json.dumps(proof,indent=2));print(json.dumps(proof))
+          PY
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: verified-transfer-419
+          path: transfer-proof.json
+          retention-days: 1
